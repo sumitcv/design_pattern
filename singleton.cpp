@@ -1,37 +1,39 @@
-#include <iostream>
+#include<iostream>
+#include<sstream>
+#include<string>
+#include<climits>
+
 using namespace std;
-class Singleton
+
+class SingletonClass
 {
-    private:
-        Singleton() {};
-        Singleton(Singleton& ) = delete;
-		Singleton operator=(Singleton&) = delete;
-        
-    public:
-		static Singleton * instance;
-        static Singleton * getInstance();
-
-		void foo() { cout << "test object" << endl;}
+public:
+    static SingletonClass * SingletonObject;
+    
+    static SingletonClass* getInstance()
+    {
+        if (SingletonObject == nullptr)
+            SingletonObject = new SingletonClass();
+        return SingletonObject;
+    }
+private:
+    SingletonClass() {}
+    SingletonClass(const SingletonClass& ) = delete;
+    SingletonClass& operator=(const SingletonClass) = delete;
+    SingletonClass(const SingletonClass &&) = delete;
+    SingletonClass& operator=(const SingletonClass && ) = delete;
 };
-
-Singleton * Singleton::instance = nullptr;
-//Singleton * getInstance()
-Singleton * Singleton::getInstance()
-        {
-			if (Singleton::instance ==  nullptr)
-			{
-				Singleton::instance = new Singleton();
-			}
-			return Singleton::instance;
-		}
+SingletonClass * SingletonClass::SingletonObject = nullptr;
 
 int main()
 {
-  // Singleton * s = new Singleton(); // not work 
-  Singleton* ss = Singleton::getInstance();
-  Singleton* aa = Singleton::getInstance();
-  cout << ss << endl;
-  cout << aa << endl;
-
-  return 0;
+    SingletonClass* sc = SingletonClass::getInstance();
+    cout << "Address of sc: " << sc << endl;
+    SingletonClass* sc1 = SingletonClass::getInstance();
+    cout << "Address of sc1: " << sc1 << endl;
+    
+    SingletonClass * sscc = sc; 
+    cout << "Address of sscc: " << sscc << endl;
+    return 0;
 }
+
